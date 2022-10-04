@@ -16,8 +16,8 @@ router.get('/', async (_req, res) => {
 
 router.get('/:id', async (req, res) => {
     const talkers = JSON.parse(await fs.readFile(talkerPath, 'utf8'));
-    const id = req.params.id;
-    const index = talkers.findIndex((item) => item.id === parseInt(id));
+    const { id } = req.params;
+    const index = talkers.findIndex((item) => item.id === +(id));
     if (index < 0) {
         res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
     } else {

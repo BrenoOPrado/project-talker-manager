@@ -24,4 +24,4 @@ const loginRouter = require('./routes/loginRouter');
 app.use(express.json());
 
 app.use('/talker', talkerRouter);
-app.use('/login', loginRouter)
+app.use('/login', loginRouter);
