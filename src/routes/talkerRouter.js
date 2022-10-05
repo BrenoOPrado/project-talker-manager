@@ -4,7 +4,6 @@ const path = require('path');
 
 const router = express.Router();
 const talkerPath = path.resolve(__dirname, '..', 'talker.json');
-const newTalkerValidation = require('../middleware/newTalkerValidation');
 
 router.get('/', async (_req, res) => {
     const talkers = JSON.parse(await fs.readFile(talkerPath, 'utf8'));
@@ -26,12 +25,40 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', newTalkerValidation, async (req, res) => {
+const ageTalkerValidation = require(
+    '../middleware/talkerValidation/ageTalkerValidation',
+);
+const authoriztionTalkerValidation = require(
+    '../middleware/talkerValidation/authoriztionTalkerValidation',
+);
+const nameTalkerValidation = require(
+    '../middleware/talkerValidation/nameTalkerValidation',
+);
+const talkRateTalkerValidation = require(
+    '../middleware/talkerValidation/talkRateTalkerValidation',
+);
+const talkWatchedAtTalkerValidation = require(
+    '../middleware/talkerValidation/talkWatchedAtTalkerValidation',
+);
+
+const middlewareArray = [
+    authoriztionTalkerValidation,
+    ageTalkerValidation,
+    nameTalkerValidation,
+    talkRateTalkerValidation,
+    talkWatchedAtTalkerValidation,
+];
+
+router.post('/', ...middlewareArray, async (req, res) => {
     const talkers = JSON.parse(await fs.readFile(talkerPath, 'utf8'));
-    const newTalker = req.body;
+    const talkerBody = req.body;
+    const newTalker = {
+        ...talkerBody,
+        id: (talkers.length + 1)
+    }
     talkers.push(newTalker);
+    console.log(newTalker);
     await fs.writeFile(talkerPath, JSON.stringify(talkers));
-    // await fs.writeFile(newTalker);
     return res.status(201).json(newTalker);
 });
 

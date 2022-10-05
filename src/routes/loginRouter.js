@@ -1,6 +1,6 @@
 const express = require('express');
-const emailValidation = require('../middleware/emailValidation');
-const passwordValidation = require('../middleware/passwordValidation');
+const emailValidation = require('../middleware/loginValidation/emailValidation');
+const passwordValidation = require('../middleware/loginValidation/passwordValidation');
 
 const router = express.Router();
 

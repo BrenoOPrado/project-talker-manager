@@ -12,4 +12,4 @@ module.exports = function passwordValidation(req, res, next) {
       });
     }
     next();
- };
+};
