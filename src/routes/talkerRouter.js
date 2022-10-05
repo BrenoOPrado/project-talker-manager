@@ -75,4 +75,16 @@ router.put('/:id', ...middlewareArray, async (req, res) => {
     res.status(200).json(talkers[index]);
 });
 
+router.delete('/:id', authoriztionTalkerValidation, async (req, res) => {
+    const { id } = req.params;
+    const talkers = JSON.parse(await fs.readFile(talkerPath, 'utf8'));
+    const talker = talkers.find((t) => t.id === parseInt(id, 10));
+    if (talker) {
+      const index = talkers.indexOf(talker);
+      talkers.splice(index, 1);
+    }
+    await fs.writeFile(talkerPath, JSON.stringify(talkers));
+    res.sendStatus(204);
+  });
+
 module.exports = router;
