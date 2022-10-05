@@ -4,6 +4,7 @@ const path = require('path');
 
 const router = express.Router();
 const talkerPath = path.resolve(__dirname, '..', 'talker.json');
+const newTalkerValidation = require('../middleware/newTalkerValidation');
 
 router.get('/', async (_req, res) => {
     const talkers = JSON.parse(await fs.readFile(talkerPath, 'utf8'));
@@ -23,6 +24,15 @@ router.get('/:id', async (req, res) => {
     } else {
         res.status(200).json(talkers[index]);
     }
+});
+
+router.post('/', newTalkerValidation, async (req, res) => {
+    const talkers = JSON.parse(await fs.readFile(talkerPath, 'utf8'));
+    const newTalker = req.body;
+    talkers.push(newTalker);
+    await fs.writeFile(talkerPath, JSON.stringify(talkers));
+    // await fs.writeFile(newTalker);
+    return res.status(201).json(newTalker);
 });
 
 module.exports = router;

@@ -4,7 +4,7 @@ const passwordValidation = require('../middleware/passwordValidation');
 
 const router = express.Router();
 
-router.post('/', emailValidation, passwordValidation, async (_req, res) => {
+router.post('/', emailValidation, passwordValidation, (_req, res) => {
     let token = '';
     const caracteres = 'abcdefghijklmnopqrstuvwxyz0123456789';
     for (let i = 0; i < 16; i += 1) {
