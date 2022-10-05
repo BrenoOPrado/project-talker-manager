@@ -1,6 +1,5 @@
 module.exports = function talkWatchedAtTalkerValidation(req, res, next) {
-    const body = req.body;
-    const { talk: { watchedAt } } = body;
+    const { talk: { watchedAt } } = req.body;
 
     if (!watchedAt
         || watchedAt.length <= 0) {
@@ -17,4 +16,4 @@ module.exports = function talkWatchedAtTalkerValidation(req, res, next) {
         });
     }
     next();
-}
+};

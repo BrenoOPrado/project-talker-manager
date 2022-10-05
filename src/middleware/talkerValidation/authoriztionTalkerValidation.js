@@ -9,5 +9,5 @@ module.exports = function authoriztionTalkerValidation(req, res, next) {
           message: 'Token inválido',
        });
     }
-    next()
-}
+    next();
+};

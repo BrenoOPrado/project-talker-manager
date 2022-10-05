@@ -12,4 +12,4 @@ module.exports = function ageTalkerValidation(req, res, next) {
         });
     }
     next();
-}
+};

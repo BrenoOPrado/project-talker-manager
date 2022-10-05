@@ -34,6 +34,9 @@ const authoriztionTalkerValidation = require(
 const nameTalkerValidation = require(
     '../middleware/talkerValidation/nameTalkerValidation',
 );
+const talkTalkerValidation = require(
+    '../middleware/talkerValidation/talkTalkerValidation',
+);
 const talkRateTalkerValidation = require(
     '../middleware/talkerValidation/talkRateTalkerValidation',
 );
@@ -45,6 +48,7 @@ const middlewareArray = [
     authoriztionTalkerValidation,
     ageTalkerValidation,
     nameTalkerValidation,
+    talkTalkerValidation,
     talkRateTalkerValidation,
     talkWatchedAtTalkerValidation,
 ];
@@ -54,12 +58,21 @@ router.post('/', ...middlewareArray, async (req, res) => {
     const talkerBody = req.body;
     const newTalker = {
         ...talkerBody,
-        id: (talkers.length + 1)
-    }
+        id: (talkers.length + 1),
+    };
     talkers.push(newTalker);
-    console.log(newTalker);
     await fs.writeFile(talkerPath, JSON.stringify(talkers));
     return res.status(201).json(newTalker);
+});
+
+router.put('/:id', ...middlewareArray, async (req, res) => {
+    const { id } = req.params;
+    const talkers = JSON.parse(await fs.readFile(talkerPath, 'utf8'));
+    const index = talkers.findIndex((item) => item.id === parseInt(id, 10));
+    const newTalker = { ...req.body };
+    talkers[index] = { ...newTalker, id: talkers[index].id };
+    await fs.writeFile(talkerPath, JSON.stringify(talkers));
+    res.status(200).json(talkers[index]);
 });
 
 module.exports = router;
