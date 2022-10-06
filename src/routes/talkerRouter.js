@@ -46,7 +46,6 @@ router.get('/search', authoriztionTalkerValidation,
 async (req, res) => {
     const { q } = req.query;
     const talkers = JSON.parse(await fs.readFile(talkerPath, 'utf8'));
-    if (!q || q === undefined) return res.status(200).json(talkers); 
     const talkerArray = talkers.filter((t) => t.name.includes(q));
     return res.status(200).json(talkerArray);
 });
@@ -78,8 +77,7 @@ router.put('/:id', ...middlewareArray, async (req, res) => {
     const { id } = req.params;
     const talkers = JSON.parse(await fs.readFile(talkerPath, 'utf8'));
     const index = talkers.findIndex((item) => item.id === parseInt(id, 10));
-    const newTalker = { ...req.body };
-    talkers[index] = { ...newTalker, id: talkers[index].id };
+    talkers[index] = { ...req.body, id: talkers[index].id };
     await fs.writeFile(talkerPath, JSON.stringify(talkers));
     res.status(200).json(talkers[index]);
 });
