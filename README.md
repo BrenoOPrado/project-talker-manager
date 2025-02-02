@@ -106,7 +106,3 @@ OBS: Se estiver usando `macOS` será necessário colocar manualmente uma opção
 - [Node.js](https://nodejs.org/en/)
 - [Express](https://expressjs.com/pt-br/)
 
-
-## Feedback
-
-Se você tiver algum feedback, por favor nos deixe saber por meio de jgustavomendonca@gmail.com
